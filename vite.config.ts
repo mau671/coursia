@@ -11,7 +11,15 @@ const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
     devtools(),
-    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
+    nitro({
+      rollupConfig: { external: [/^@sentry\//] },
+      compatibilityDate: '2024-09-19',
+      preset: (process.env.NITRO_PRESET as 'cloudflare_pages' | 'cloudflare_module' | undefined) || undefined,
+      cloudflare: {
+        deployConfig: true,
+        nodeCompat: true,
+      },
+    }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
