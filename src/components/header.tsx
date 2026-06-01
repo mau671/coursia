@@ -1,10 +1,24 @@
 import { useEffect, useState } from "react"
 import { useLocation } from "@tanstack/react-router"
 import {
+  BotIcon,
+  ClipboardListIcon,
   CircleHelpIcon,
+  EyeIcon,
+  FileTextIcon,
   GridIcon,
+  LifeBuoyIcon,
+  LightbulbIcon,
   LogOutIcon,
+  MailIcon,
+  MapIcon,
+  MapPinnedIcon,
+  PhoneCallIcon,
+  SearchIcon,
   SettingsIcon,
+  TimerIcon,
+  UserCogIcon,
+  UserPlusIcon,
   UserIcon,
 } from "lucide-react"
 
@@ -30,8 +44,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { getCourseByParams } from "@/lib/course-catalog"
 import { getCommunityLabel } from "@/lib/community-catalog"
+
+const apps = [
+  { label: "Control de plagio", icon: SearchIcon },
+  { label: "Prematrícula", icon: EyeIcon },
+  { label: "Feria de ideas de negocios", icon: LightbulbIcon },
+  { label: "Expediente estudiantil", icon: FileTextIcon },
+  { label: "Gestor de inclusiones", icon: UserPlusIcon },
+  { label: "Gestor de inscripción", icon: ClipboardListIcon },
+  { label: "Modelo de usuario", icon: UserCogIcon },
+] as const
 
 export function Header() {
   const [mounted, setMounted] = useState(false)
@@ -146,15 +171,91 @@ export function Header() {
 
         <ModeToggle />
 
-        <Button variant="ghost" size="icon" aria-label="Apps" className="hidden md:inline-flex">
-          <GridIcon />
-        </Button>
+        <Popover>
+          <PopoverTrigger
+            render={
+              <Button variant="ghost" size="icon" aria-label="Apps" className="hidden md:inline-flex">
+                <GridIcon />
+              </Button>
+            }
+          />
+          <PopoverContent align="end" className="w-80 p-3">
+            <h3 className="mb-3 text-sm font-semibold">Aplicaciones</h3>
+            <div className="grid grid-cols-3 gap-x-3 gap-y-4">
+              {apps.map(({ label, icon: Icon }) => (
+                <button
+                  key={label}
+                  type="button"
+                  className="flex min-w-0 flex-col items-center gap-1 rounded-md p-1 text-center hover:bg-accent"
+                  title={label}
+                >
+                  <span className="grid size-10 place-items-center rounded-full bg-accent text-foreground">
+                    <Icon className="size-5" />
+                  </span>
+                  <span className="w-full truncate text-sm text-muted-foreground">{label}</span>
+                </button>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
 
         <NotificationsPopover />
 
-        <Button variant="ghost" size="icon" aria-label="Ayuda" className="hidden md:inline-flex">
-          <CircleHelpIcon />
-        </Button>
+        <Popover>
+          <PopoverTrigger
+            render={
+              <Button variant="ghost" size="icon" aria-label="Ayuda" className="hidden md:inline-flex">
+                <CircleHelpIcon />
+              </Button>
+            }
+          />
+          <PopoverContent align="end" className="w-80 p-0">
+            <div className="space-y-3 p-4">
+              <h3 className="text-sm font-semibold">Ayuda</h3>
+
+              <div className="space-y-3 px-1.5 text-muted-foreground">
+                <div className="flex items-center gap-3"><PhoneCallIcon className="size-5" /><span>+ 506 2550-2069</span></div>
+                <div className="flex items-center gap-3"><MailIcon className="size-5" /><span>tec-digital@itcr.ac.cr</span></div>
+                <div className="flex items-center gap-3"><TimerIcon className="size-5" /><span>L-V de 7:30am a 4:30pm</span></div>
+              </div>
+
+              <div className="border-t border-border" />
+
+              <div className="space-y-2">
+                <a
+                  href="https://tecdigital.tec.ac.cr/servicios/Mapa_Campus_TEC_CA.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex w-full items-center gap-3 rounded-md px-1.5 py-1.5 text-left text-muted-foreground hover:bg-accent hover:text-foreground"
+                >
+                  <MapIcon className="size-5" />
+                  <span>Mapa del campus</span>
+                </a>
+                <a
+                  href="https://t.me/TecKapiBot"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex w-full items-center gap-3 rounded-md px-1.5 py-1.5 text-left text-muted-foreground hover:bg-accent hover:text-foreground"
+                >
+                  <BotIcon className="size-5" />
+                  <span>KapiBOT - Admisión y Registro</span>
+                </a>
+                <button type="button" className="flex w-full items-center gap-3 rounded-md px-1.5 py-1.5 text-left text-muted-foreground hover:bg-accent hover:text-foreground">
+                  <MapPinnedIcon className="size-5" />
+                  <span>Guía para estudiantes</span>
+                </button>
+                <button type="button" className="flex w-full items-center gap-3 rounded-md px-1.5 py-1.5 text-left text-muted-foreground hover:bg-accent hover:text-foreground">
+                  <MapPinnedIcon className="size-5" />
+                  <span>Guía para profesores</span>
+                </button>
+                <button type="button" className="flex w-full items-center gap-3 rounded-md px-1.5 py-1.5 text-left text-muted-foreground hover:bg-accent hover:text-foreground">
+                  <LifeBuoyIcon className="size-5" />
+                  <span>Ingresar una nueva solicitud</span>
+                </button>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
 
         <DropdownMenu>
           <DropdownMenuTrigger

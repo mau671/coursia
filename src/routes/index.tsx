@@ -310,7 +310,7 @@ function CommunityItem({
   parentSegments?: string[]
 }) {
   const hasChildren = !!node.children?.length
-  const indent = depth * 28
+  const indent = depth * 16
   const currentSegments = [...parentSegments, node.id]
   const communityPath = `/communities/${currentSegments.join('/')}`
 
@@ -344,7 +344,7 @@ function CommunityItem({
           {node.label}
         </Link>
       </div>
-      <CollapsibleContent className="space-y-1 pl-2">
+      <CollapsibleContent className="space-y-1 pl-1 md:pl-2">
         {node.children?.map((child) => (
           <CommunityItem
             key={child.id}
@@ -371,7 +371,7 @@ function CoursesTree() {
               {period.label}
             </span>
           </div>
-          <CollapsibleContent className="ml-8 space-y-1">
+          <CollapsibleContent className="ml-4 space-y-1 md:ml-8">
             {period.semesters.map((semester) => (
               <Collapsible
                 key={semester.id}
@@ -386,7 +386,7 @@ function CoursesTree() {
                     {semester.label}
                   </span>
                 </div>
-                <CollapsibleContent className="ml-8 space-y-1">
+                <CollapsibleContent className="ml-4 space-y-1 md:ml-8">
                   {semester.courses.map((course) => (
                     <div key={course.id} className="flex items-center gap-2 px-2 py-1.5">
                       <span className="grid size-6 shrink-0 place-items-center text-muted-foreground">
@@ -404,7 +404,11 @@ function CoursesTree() {
                         className="group flex flex-1 items-center justify-between gap-3 rounded-md text-base"
                       >
                         <span className="underline-offset-4 group-hover:underline">{course.title}</span>
-                        <Badge variant="secondary">{`Grupo ${course.groupNumber.padStart(2, '0')}`}</Badge>
+                        <Badge variant="secondary" className="font-mono">
+                          <span className="hidden sm:inline">Grupo </span>
+                          <span className="sm:hidden">GR</span>
+                          {course.groupNumber.padStart(2, '0')}
+                        </Badge>
                       </Link>
                     </div>
                   ))}
@@ -420,7 +424,7 @@ function CoursesTree() {
 
 function Home() {
   return (
-    <div className="flex grow px-8 py-7">
+    <div className="flex grow px-4 py-7 md:px-8">
       <div className="w-full max-w-2xl space-y-4">
         <section className="space-y-3">
           <Collapsible defaultOpen>
@@ -430,7 +434,7 @@ function Home() {
               </CollapsibleTrigger>
               <h2 className="text-xl font-semibold">Comunidades</h2>
             </div>
-            <CollapsibleContent className="pt-1 pl-8">
+            <CollapsibleContent className="pt-1 pl-4 md:pl-8">
               <div className="space-y-2">
                 {communities.map((community) => (
                   <CommunityItem key={community.id} node={community} />
@@ -448,7 +452,7 @@ function Home() {
               </CollapsibleTrigger>
               <h2 className="text-xl font-semibold">Cursos</h2>
             </div>
-            <CollapsibleContent className="pt-1 pl-8">
+            <CollapsibleContent className="pt-1 pl-4 md:pl-8">
               <CoursesTree />
             </CollapsibleContent>
           </Collapsible>
