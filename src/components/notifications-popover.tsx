@@ -270,17 +270,19 @@ export function NotificationsPopover() {
       <PopoverTrigger
         render={
           <Button variant="ghost" size="icon" aria-label="Notificaciones" className="relative overflow-visible">
-            <BellIcon />
-            {totalNotifications > 0 ? (
-              <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 translate-y-[0.5px] items-center justify-center rounded-full bg-primary px-0.5 text-[9px] font-semibold leading-none [font-variant-numeric:tabular-nums] text-primary-foreground">
-                {totalNotifications}
-              </span>
-            ) : null}
+            <span className="relative inline-flex overflow-visible">
+              <BellIcon />
+              {totalNotifications > 0 ? (
+                <span className="absolute -right-1.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-primary px-0.5 text-[9px] font-semibold leading-none [font-variant-numeric:tabular-nums] text-primary-foreground">
+                  {totalNotifications}
+                </span>
+              ) : null}
+            </span>
           </Button>
         }
       />
-      <PopoverContent align="end" className="w-96 p-0">
-        <div className="flex items-center justify-between pt-[15px] px-[15px]">
+      <PopoverContent align="end" sideOffset={8} className="w-[min(24rem,calc(100vw-1rem))] p-0">
+        <div className="flex items-center justify-between px-[15px] pt-[15px]">
           <span className="text-sm font-semibold leading-none">Notificaciones</span>
           <Button
             variant="ghost"
@@ -298,38 +300,42 @@ export function NotificationsPopover() {
         </div>
 
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v)} className="gap-0">
-          <div ref={tabsListCallbackRef} className="px-[15px] pb-1">
-            <TabsList variant="line" className="w-full justify-around">
-              {tabs.map(({ value, label, icon: Icon }) => (
-                <TabsTrigger key={value} value={value} className="flex-col gap-0.5 py-1.5">
-                  <span className="relative inline-flex overflow-visible">
-                    <Icon className="size-4" />
-                    {notificationsByTab[value].length > 0 ? (
-                      <span className="absolute -right-2 -top-1.5 flex h-3.5 min-w-3.5 translate-y-[0.5px] items-center justify-center rounded-full bg-primary px-0.5 text-[8px] font-semibold leading-none [font-variant-numeric:tabular-nums] text-primary-foreground">
-                        {notificationsByTab[value].length}
+          <div
+            ref={tabsListCallbackRef}
+            className="overflow-x-auto overscroll-x-contain touch-pan-x pt-1.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <div className="flex min-w-full justify-center">
+              <div ref={separatorCallbackRef} className="relative w-max min-w-max px-[15px] pb-px">
+                <TabsList variant="line" className="min-w-max justify-start">
+                  {tabs.map(({ value, label, icon: Icon }) => (
+                    <TabsTrigger key={value} value={value} className="flex-col gap-0.5 py-1.5">
+                      <span className="relative inline-flex overflow-visible">
+                        <Icon className="size-4" />
+                        {notificationsByTab[value].length > 0 ? (
+                          <span className="absolute -right-2 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-primary px-0.5 text-[8px] font-semibold leading-none [font-variant-numeric:tabular-nums] text-primary-foreground">
+                            {notificationsByTab[value].length}
+                          </span>
+                        ) : null}
                       </span>
-                    ) : null}
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-[10px] font-medium">
-                    <span>{label}</span>
-                  </span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
+                      <span className="inline-flex items-center gap-1 text-[10px] font-medium">
+                        <span>{label}</span>
+                      </span>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+                {indicatorStyle && (
+                  <div
+                    className="absolute bottom-0 h-0.5 bg-foreground transition-[left,width] duration-300 ease"
+                    style={{
+                      left: indicatorStyle.left,
+                      width: indicatorStyle.width,
+                    }}
+                  />
+                )}
+              </div>
+            </div>
           </div>
-
-          <div ref={separatorCallbackRef} className="relative">
-            <Separator />
-            {indicatorStyle && (
-              <div
-                className="absolute bottom-0 h-0.5 bg-foreground transition-[left,width] duration-300 ease"
-                style={{
-                  left: indicatorStyle.left,
-                  width: indicatorStyle.width,
-                }}
-              />
-            )}
-          </div>
+          <Separator />
 
           <ScrollArea className="h-64">
               {tabs.map(({ value }) => (
