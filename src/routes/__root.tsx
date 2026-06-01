@@ -67,7 +67,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="antialiased h-svh flex flex-col overflow-hidden">
         <Providers>
           {!isAuthPage && <Header />}
-          <div className="flex-1 min-h-0 overflow-y-auto [scrollbar-gutter:stable]">
+          <div className="flex-1 min-h-0 overflow-y-auto">
             {children}
           </div>
         </Providers>
