@@ -1,0 +1,13 @@
+uid=2_0 RootWebArea "Coursia" url="http://localhost:3001/"
+  uid=2_1 banner
+    uid=2_2 navigation "breadcrumb"
+      uid=2_3 link "Inicio" url="http://localhost:3001/"
+        uid=2_4 StaticText "Inicio"
+    uid=2_5 StaticText "00:46:29"
+    uid=2_6 button "Cambiar tema" expandable haspopup="menu"
+    uid=2_7 button "Apps"
+    uid=2_8 button "Notificaciones"
+    uid=2_9 button "Ayuda"
+    uid=2_10 button expandable haspopup="menu"
+  uid=2_11 region "Notifications alt+T" live="polite" relevant="additions text"
+  uid=2_12 button "Open TanStack Devtools"
