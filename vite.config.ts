@@ -14,7 +14,7 @@ const config = defineConfig({
     nitro({
       rollupConfig: { external: [/^@sentry\//] },
       compatibilityDate: '2024-09-19',
-      preset: (process.env.NITRO_PRESET as 'cloudflare_pages' | 'cloudflare_module' | undefined) || undefined,
+      preset: 'cloudflare_module',
       cloudflare: {
         deployConfig: true,
         nodeCompat: true,
